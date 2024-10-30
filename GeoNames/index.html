@@ -1,40 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>GeoNames Project</title>
-    <meta name="author" content="" />
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous" />
-    <link rel="stylesheet" href="css/styles.css" />
-  </head>
-  <body>
-    <div class="header"></div>
+<head>
+  <meta charset="utf-8" />
+  <title>GeoNames Project</title>
+  <meta name="author" content="Ryan Ralph" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <div class="main">
-      <h1>Hello World</h1>
-      <div class="container text-center">
-        <div class="row">
-          <div class="col">API Name</div>
-          <div class="col">API Description</div>
-          <div class="col"></div>
-        </div>
-      </div>
-    </div>
+  <link rel="stylesheet" href="css/bootstrap-css/bootstrap.min.css">
+  </link>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
 
-    <div class="preloader"></div>
+<body>
+  <div class="container col-4 mt-5">
+    <h1 class="title">GeoNames Project</h1>
+  </div>
 
-    <script src="vendors/jquery/jquery.min.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"></script>
-    <script src="javascript/script.js"></script>
-  </body>
+  <div class="container-fluid text-center">
+    <form id="apiForm">
+      <table class="table table-bordered bg-info text-black col-9 mx-auto">
+        <thead>
+          <tr class="table-primary">
+            <th class="col-2 fw-bold">Name of the API</th>
+            <th class="col-8 fw-bold">API Input parameters</th>
+            <th class="col-2 fw-bold"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="align-middle">
+              <label for="api1">API 1</label>
+            </td>
+            <td class="align-middle">What API 1 does</td>
+            <td class="align-middle">
+              <button type="submit" name="api" value="api1" class="btn btn-primary btn-sm">Submit</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="align-middle">
+              <label for="api2">API 2</label>
+            </td>
+            <td class="align-middle">What API 2 does</td>
+            <td class="align-middle">
+              <button type="submit" name="api" value="api2" class="btn btn-primary btn-sm">Submit</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="align-middle">
+              <label for="api3">API 3</label>
+            </td>
+            <td class="align-middle">What API 3 does</td>
+            <td class="align-middle">
+              <button type="submit" name="api" value="api3" class="btn btn-primary btn-sm">Submit</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">
+              <div class="my-2">
+                <p class="fw-bold">Results:</p>
+              </div>
+              <div>
+                <div id="apiResponse">API 1 placeholder</div> <!-- Placeholder for API response -->
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </form>
+  </div>
+
+
+
+
+  <div class="preloader"></div>
+
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="javascript/jquery.js"></script>
+  <script src="javascript/script.js"></script>
+</body>
+
 </html>
