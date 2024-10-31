@@ -5,15 +5,13 @@
   <meta charset="utf-8" />
   <title>GeoNames Project</title>
   <meta name="author" content="Ryan Ralph" />
-  <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="stylesheet" href="css/bootstrap-css/bootstrap.min.css">
-  </link>
+  <link rel="stylesheet" href="css/bootstrap-css/bootstrap.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
 <body>
+
   <div class="container col-4 mt-5">
     <h1 class="title">GeoNames Project</h1>
   </div>
@@ -30,30 +28,27 @@
         </thead>
         <tbody>
           <tr>
-            <td class="align-middle">
-              <label for="api1">API 1</label>
+            <td class="align-middle"><label for="api1">PostCode Searcher</label></td>
+            <td class="align-middle fw-bold">
+              Enter a postcode: <input type="text" id="postalcode" name="postalcode" placeholder="Enter a Postcode"
+                required>
             </td>
-            <td class="align-middle">What API 1 does</td>
             <td class="align-middle">
-              <button type="submit" name="api" value="api1" class="btn btn-primary btn-sm">Submit</button>
+              <button type="button" data-api="api1" class="btn btn-primary btn-sm submit-btn">Submit</button>
             </td>
           </tr>
           <tr>
-            <td class="align-middle">
-              <label for="api2">API 2</label>
-            </td>
+            <td class="align-middle"><label for="api2">API 2</label></td>
             <td class="align-middle">What API 2 does</td>
             <td class="align-middle">
-              <button type="submit" name="api" value="api2" class="btn btn-primary btn-sm">Submit</button>
+              <button type="button" data-api="api2" class="btn btn-primary btn-sm submit-btn">Submit</button>
             </td>
           </tr>
           <tr>
-            <td class="align-middle">
-              <label for="api3">API 3</label>
-            </td>
+            <td class="align-middle"><label for="api3">API 3</label></td>
             <td class="align-middle">What API 3 does</td>
             <td class="align-middle">
-              <button type="submit" name="api" value="api3" class="btn btn-primary btn-sm">Submit</button>
+              <button type="button" data-api="api3" class="btn btn-primary btn-sm submit-btn">Submit</button>
             </td>
           </tr>
         </tbody>
@@ -63,9 +58,7 @@
               <div class="my-2">
                 <p class="fw-bold">Results:</p>
               </div>
-              <div>
-                <div id="apiResponse">API 1 placeholder</div> <!-- Placeholder for API response -->
-              </div>
+              <div id="apiResponse">API Response will appear here</div>
             </td>
           </tr>
         </tfoot>
@@ -73,13 +66,8 @@
     </form>
   </div>
 
-
-
-
-  <div class="preloader"></div>
-
-  <script src="js/bootstrap.bundle.min.js"></script>
-  <script src="javascript/jquery.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="javascript/bootstrap.bundle.min.js"></script>
   <script src="javascript/script.js"></script>
 </body>
 
