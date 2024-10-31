@@ -129,7 +129,7 @@ $(document).ready(function () {
                     console.log('Wikipedia URL:', wikipediaUrl);
 
                     outputHtml += `<tr>
-                                <td><a href="${entry.wikipediaUrl}" target="_blank">${entry.title}</a></td>
+                                <td><a href="${"https://" + entry.wikipediaUrl}" target="_blank">${entry.title}</a></td>
                                 <td>${entry.summary}</td>
                               </tr>`;
                 });
