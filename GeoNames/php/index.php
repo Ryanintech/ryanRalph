@@ -1,7 +1,7 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $selectedApi = $_POST['api'];
-    $username = 'ryanintech';
+    $username = 'ryanintech'; // Replace with your actual GeoNames username
     $url = '';
 
     if ($selectedApi === 'api1') {
@@ -11,6 +11,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $latitude = isset($_POST['latitude']) ? urlencode($_POST['latitude']) : '';
         $longitude = isset($_POST['longitude']) ? urlencode($_POST['longitude']) : '';
         $url = "http://api.geonames.org/timezoneJSON?lat={$latitude}&lng={$longitude}&username={$username}";
+    } elseif ($selectedApi === 'wikipediaApi') {
+        $placeName = isset($_POST['placeName']) ? urlencode($_POST['placeName']) : '';
+        $url = "http://api.geonames.org/wikipediaSearchJSON?q={$placeName}&maxRows=10&username={$username}";
     } else {
         echo "<p>Invalid API selection.</p>";
         exit;
@@ -32,5 +35,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     curl_close($ch);
     exit;
 }
-
-?>

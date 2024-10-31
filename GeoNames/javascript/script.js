@@ -5,12 +5,16 @@ $(document).ready(function () {
         let postalcode = '';
         let latitude = '';
         let longitude = '';
+        let placeName = '';
+        let country = '';
 
         if (selectedApi === 'api1') {
             postalcode = $('#postalcode').val();
         } else if (selectedApi === 'timezoneApi') {
             latitude = $('#latitude').val();
             longitude = $('#longitude').val();
+        } else if (selectedApi === 'wikipediaApi') {
+            placeName = $('#placeName').val();
         }
 
         // Prepare the data to send in the AJAX request
@@ -24,6 +28,12 @@ $(document).ready(function () {
         }
         if (longitude) {
             requestData.longitude = longitude;
+        }
+        if (placeName) {
+            requestData.placeName = placeName;
+        }
+        if (country) {
+            requestData.country = country;
         }
 
         // Send the form data using AJAX
@@ -88,27 +98,42 @@ $(document).ready(function () {
                 break;
 
             case 'timezoneApi':
-                // Check if there's an error in the response
-                if (jsonData.status) {
+                if (jsonData.error) {
                     outputHtml += `<p class="text-danger">Error: ${jsonData.status.message}</p>`;
-                    $('#apiResponse').html(outputHtml);
-                    return;
+                } else {
+                    outputHtml += '<h3>Timezone Results</h3>';
+                    outputHtml += `<p>Country Code: ${jsonData.countryCode}</p>`;
+                    outputHtml += `<p>Country Name: ${jsonData.countryName}</p>`;
+                    outputHtml += `<p>Timezone ID: ${jsonData.timezoneId}</p>`;
+                    outputHtml += `<p>Local Time: ${jsonData.time}</p>`;
+                    outputHtml += `<p>Sunrise: ${jsonData.sunrise}</p>`;
+                    outputHtml += `<p>Sunset: ${jsonData.sunset}</p>`;
+                    outputHtml += `<p>Raw Offset: ${jsonData.rawOffset}</p>`;
+                    outputHtml += `<p>GMT Offset: ${jsonData.gmtOffset}</p>`;
+                    outputHtml += `<p>DST Offset: ${jsonData.dstOffset}</p>`;
                 }
-
-                outputHtml += '<h3>Timezone Results</h3>';
-                outputHtml += `<p>Country Code: ${jsonData.countryCode}</p>`;
-                outputHtml += `<p>Country Name: ${jsonData.countryName}</p>`;
-                outputHtml += `<p>Timezone ID: ${jsonData.timezoneId}</p>`;
-                outputHtml += `<p>Local Time: ${jsonData.time}</p>`;
-                outputHtml += `<p>Sunrise: ${jsonData.sunrise}</p>`;
-                outputHtml += `<p>Sunset: ${jsonData.sunset}</p>`;
-                outputHtml += `<p>Raw Offset: ${jsonData.rawOffset}</p>`;
-                outputHtml += `<p>GMT Offset: ${jsonData.gmtOffset}</p>`;
-                outputHtml += `<p>DST Offset: ${jsonData.dstOffset}</p>`;
                 break;
 
-            case 'api3':
-                outputHtml += '<p class="text-danger">Im doing it now again.</p>';
+            case 'wikipediaApi': // Assuming this is the case for Wikipedia search
+                outputHtml += '<h3>Wikipedia Results</h3>';
+                outputHtml += `<table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>`;
+                jsonData.geonames.forEach(entry => {
+                    const wikipediaUrl = entry.wikipediaUrl;
+                    console.log('Wikipedia URL:', wikipediaUrl);
+
+                    outputHtml += `<tr>
+                                <td><a href="${entry.wikipediaUrl}" target="_blank">${entry.title}</a></td>
+                                <td>${entry.summary}</td>
+                              </tr>`;
+                });
+                outputHtml += `</tbody></table>`;
                 break;
 
             default:
