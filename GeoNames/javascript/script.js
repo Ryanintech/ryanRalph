@@ -1,12 +1,11 @@
 $(document).ready(function () {
-    // Handle button click events
     $('.submit-btn').on('click', function () {
         const selectedApi = $(this).data('api');
         let postalcode = '';
         let latitude = '';
         let longitude = '';
         let placeName = '';
-        let country = '';
+        const username = 'ryanintech';
 
         if (selectedApi === 'api1') {
             postalcode = $('#postalcode').val();
@@ -17,33 +16,25 @@ $(document).ready(function () {
             placeName = $('#placeName').val();
         }
 
-        // Prepare the data to send in the AJAX request
-        const requestData = { api: selectedApi };
+        let url = '';
 
-        if (postalcode) {
-            requestData.postalcode = postalcode;
-        }
-        if (latitude) {
-            requestData.latitude = latitude;
-        }
-        if (longitude) {
-            requestData.longitude = longitude;
-        }
-        if (placeName) {
-            requestData.placeName = placeName;
-        }
-        if (country) {
-            requestData.country = country;
+        if (selectedApi === 'api1') {
+            url = `http://api.geonames.org/postalCodeSearchJSON?postalcode=${encodeURIComponent(postalcode)}&maxRows=10&username=${username}`;
+        } else if (selectedApi === 'timezoneApi') {
+            url = `http://api.geonames.org/timezoneJSON?lat=${encodeURIComponent(latitude)}&lng=${encodeURIComponent(longitude)}&username=${username}`;
+        } else if (selectedApi === 'wikipediaApi') {
+            url = `http://api.geonames.org/wikipediaSearchJSON?q=${encodeURIComponent(placeName)}&maxRows=10&username=${username}`;
+        } else {
+            $('#apiResponse').html('<p class="text-danger">Unknown API selected.</p>');
+            return;
         }
 
-        // Send the form data using AJAX
         $.ajax({
             type: 'POST',
-            url: 'php/index.php',
-            data: requestData,
+            url: url,
             success: function (response) {
                 console.log(`Response received: ${response}`);
-                displayFormattedResponse(response, selectedApi);
+                displayFormattedResponse(JSON.stringify(response), selectedApi);
             },
             error: function (xhr, status, error) {
                 console.error(`AJAX Error: ${status}, ${error}`);
@@ -114,7 +105,7 @@ $(document).ready(function () {
                 }
                 break;
 
-            case 'wikipediaApi': // Assuming this is the case for Wikipedia search
+            case 'wikipediaApi':
                 outputHtml += '<h3>Wikipedia Results</h3>';
                 outputHtml += `<table class="table table-bordered">
                             <thead>
@@ -125,11 +116,8 @@ $(document).ready(function () {
                             </thead>
                             <tbody>`;
                 jsonData.geonames.forEach(entry => {
-                    const wikipediaUrl = entry.wikipediaUrl;
-                    console.log('Wikipedia URL:', wikipediaUrl);
-
                     outputHtml += `<tr>
-                                <td><a href="${"https://" + entry.wikipediaUrl}" target="_blank">${entry.title}</a></td>
+                                <td><a href="https://en.wikipedia.org/wiki/${encodeURIComponent(entry.title)}" target="_blank">${entry.title}</a></td>
                                 <td>${entry.summary}</td>
                               </tr>`;
                 });
