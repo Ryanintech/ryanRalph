@@ -3,10 +3,19 @@ import "./Hero.css";
 
 const Hero = () => {
   return (
+    // Hero Page
     <div className="hero">
-      <img src="/src/assets/photo1.jpg" alt="Image of me" />
+      <div className="hero-image-container">
+        <span className="hero-frame"></span>
+        <img
+          src="/src/assets/photo1.jpg"
+          alt="Image of me"
+          className="hero-image"
+        />
+      </div>
+
       <h1>
-        <span>I'm Ryan Ralph</span>, a Junior Developer from England.
+        I'm <span>Ryan Ralph,</span> a Junior Developer from England.
       </h1>
       <p>
         Passionate about coding and eager to grow, I am focused on building a

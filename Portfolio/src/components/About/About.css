@@ -1,0 +1,110 @@
+.about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin: 80px 70px;
+}
+
+.about-title {
+  position: relative;
+}
+
+.about-title h1 {
+  padding: 0px 30px;
+  font-size: 80px;
+  font-weight: 600;
+  background: linear-gradient(90deg, green, blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.photo-frame {
+  display: inline-block;
+  border-radius: 20%;
+  padding: 8px;
+  background: linear-gradient(90deg, green, blue);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  margin-right: 20px;
+  margin-top: 50px;
+}
+
+.photo-frame img {
+  display: block;
+  border-radius: 20%;
+  width: 300px;
+  height: 465px;
+}
+
+.about-sections {
+  display: flex;
+}
+
+.about-right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-left: 30px;
+}
+
+.about-para {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 20px;
+}
+
+.about-skills {
+  padding: 15px;
+  border: 2px solid;
+  box-shadow: 0px 0px 10px grey;
+}
+
+.about-skill {
+  margin-left: 30px;
+}
+
+.about-skill:hover {
+  transform: scale(1.05);
+  transition: 0.3s;
+}
+
+.about-skill i {
+  font-size: 30px;
+  margin-top: 10px;
+}
+
+.about-skill:nth-child(1) i {
+  color: orange;
+}
+
+.about-skill i:nth-of-type(2) {
+  color: rgb(0, 153, 255);
+}
+
+.about-skill:nth-child(2) i {
+  color: blue;
+}
+
+.about-skill:nth-child(3) i {
+  color: red;
+}
+
+.about-skill:nth-child(4) i {
+  color: #4b8bbe;
+}
+
+.about-skill:nth-child(5) i {
+  color: rgb(75, 103, 194);
+}
+
+.about-skill hr {
+  outline: none;
+  border: none;
+  width: 50%;
+  height: 8px;
+  border-radius: 50px;
+  background: linear-gradient(90deg, green, blue);
+}

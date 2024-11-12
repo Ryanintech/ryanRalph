@@ -8,11 +8,12 @@
   display: flex;
   align-items: center;
   list-style: none;
-  gap: 60px;
+  gap: 100px;
   font-size: 20px;
+  justify-content: space-between;
 }
 
-img {
+.navbar img {
   height: 80px;
   width: 10%;
 }

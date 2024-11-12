@@ -3,13 +3,44 @@
   align-items: center;
   flex-direction: column;
   gap: 35px;
+  margin-top: 30px;
 }
 
-.hero img {
-  height: 200px;
-  width: 200px;
+.hero-image-container {
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+
+.hero-frame {
+  position: absolute;
+  top: 2px;
+  left: -10px;
+  bottom: 4px;
+  margin: auto;
   border-radius: 50%;
-  margin-top: 15px;
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(90deg, green, blue);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  animation: rotateFrame 2s linear infinite;
+}
+
+.hero-image {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes rotateFrame {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .hero h1 {
