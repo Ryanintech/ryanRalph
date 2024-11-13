@@ -1,46 +1,55 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+// Enable error reporting for development
+ini_set('display_errors', 'On');
+error_reporting(E_ALL);
+
+$executionStartTime = microtime(true);
+$username = 'ryanintech';
+
+if (isset($_POST['api'])) {
     $selectedApi = $_POST['api'];
-    $username = 'ryanintech';
     $url = '';
 
-    // Set the API URL based on the selected API
-    if ($selectedApi === 'api1') {
-        $postalcode = isset($_POST['postalcode']) ? urlencode($_POST['postalcode']) : '';
+    if ($selectedApi === 'api1' && isset($_POST['postalcode'])) {
+        $postalcode = urlencode($_POST['postalcode']);
         $url = "http://api.geonames.org/postalCodeSearchJSON?postalcode={$postalcode}&maxRows=10&username={$username}";
-    } elseif ($selectedApi === 'timezoneApi') {
-        $latitude = isset($_POST['latitude']) ? urlencode($_POST['latitude']) : '';
-        $longitude = isset($_POST['longitude']) ? urlencode($_POST['longitude']) : '';
+    } elseif ($selectedApi === 'timezoneApi' && isset($_POST['latitude'], $_POST['longitude'])) {
+        $latitude = urlencode($_POST['latitude']);
+        $longitude = urlencode($_POST['longitude']);
         $url = "http://api.geonames.org/timezoneJSON?lat={$latitude}&lng={$longitude}&username={$username}";
-    } elseif ($selectedApi === 'wikipediaApi') {
-        $placeName = isset($_POST['placeName']) ? urlencode($_POST['placeName']) : '';
+    } elseif ($selectedApi === 'wikipediaApi' && isset($_POST['placeName'])) {
+        $placeName = urlencode($_POST['placeName']);
         $url = "http://api.geonames.org/wikipediaSearchJSON?q={$placeName}&maxRows=10&username={$username}";
     } else {
-        echo json_encode(['error' => 'Invalid API selection.']);
+        echo json_encode(['error' => 'Invalid API selection or missing parameters']);
         exit;
     }
 
     // Initialize cURL
     $ch = curl_init();
-
-    // Set cURL options
-    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Disable SSL verification
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, false); // Don't include headers in the output
+    curl_setopt($ch, CURLOPT_URL, $url);
 
-    // Execute the cURL request
-    $response = curl_exec($ch);
-
-    // Handle cURL errors
-    if (curl_errno($ch)) {
-        echo json_encode(['error' => 'cURL Error: ' . curl_error($ch)]);
-    } else {
-        // Return the response as JSON
-        header('Content-Type: application/json');
-        echo $response;
-    }
-
-    // Close the cURL session
+    // Execute cURL and decode response
+    $result = curl_exec($ch);
     curl_close($ch);
-    exit;
+
+    $decode = json_decode($result, true);
+
+    // Prepare output as JSON
+    $output = [
+        'status' => [
+            'code' => 200,
+            'name' => 'ok',
+            'description' => 'success',
+            'returnedIn' => intval((microtime(true) - $executionStartTime) * 1000) . " ms"
+        ],
+        'data' => $decode
+    ];
+
+    header('Content-Type: application/json; charset=UTF-8');
+    echo json_encode($output);
+} else {
+    echo json_encode(['error' => 'API not specified']);
 }
