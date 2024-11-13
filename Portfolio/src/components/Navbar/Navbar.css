@@ -13,6 +13,15 @@
   justify-content: space-between;
 }
 
+a {
+  color: inherit; /* Inherits the color from its parent, or specify the color */
+  text-decoration: none; /* Removes any underlines */
+}
+
+a:visited {
+  color: inherit; /* Keeps the same color after the link is visited */
+}
+
 .navbar img {
   height: 80px;
   width: 10%;

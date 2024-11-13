@@ -11,7 +11,15 @@ const Navbar = () => {
         <li>Projects</li>
         <li>Contact</li>
       </ul>
-      <div className="nav-connect">Contact Me</div>
+      <div className="nav-connect">
+        <a
+          href="http://ryanralph.rf.gd/"
+          target="_blank"
+          rel="noopener noreferrer">
+          {" "}
+          Contact Me
+        </a>
+      </div>
     </div>
   );
 };
