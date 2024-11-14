@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "./Projects.css";
-import work_data from "../../assets/workdata"; // Assuming each project has an array of images
+import work_data from "../../assets/workdata";
 import search_icon from "../../assets/square-arrow.png";
 
 const Projects = () => {
-  const [focusedProject, setFocusedProject] = useState(null); // Store the focused project
-  const [currentImageIndex, setCurrentImageIndex] = useState(0); // Store the current image index
-  const [currentProjectIndex, setCurrentProjectIndex] = useState(null); // Store the index of the current project
+  const [focusedProject, setFocusedProject] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentProjectIndex, setCurrentProjectIndex] = useState(null);
 
   const handleClick = (index) => {
     setFocusedProject(work_data[index]);
     setCurrentProjectIndex(index);
-    setCurrentImageIndex(0); // Reset to the first image of the selected project
+    setCurrentImageIndex(0);
   };
 
   const handleNext = () => {
@@ -28,7 +28,7 @@ const Projects = () => {
 
   const closeFocusedProject = () => {
     setFocusedProject(null);
-    setCurrentImageIndex(0); // Reset the image index
+    setCurrentImageIndex(0);
     setCurrentProjectIndex(null);
   };
 
@@ -40,7 +40,7 @@ const Projects = () => {
       document.body.style.overflow = "auto";
     }
     return () => {
-      document.body.style.overflow = "auto"; // Reset when component unmounts
+      document.body.style.overflow = "auto";
     };
   }, [focusedProject]);
 
@@ -54,7 +54,7 @@ const Projects = () => {
         {work_data.map((work, index) => (
           <img
             key={index}
-            src={work.w_img[0]} // Show the first image of each project
+            src={work.w_img[0]}
             alt={`Project ${index}`}
             className="project-image"
             onClick={() => handleClick(index)}
