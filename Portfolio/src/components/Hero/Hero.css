@@ -21,7 +21,7 @@
   border-radius: 50%;
   width: 200px;
   height: 200px;
-  background: linear-gradient(90deg, green, blue);
+  background: linear-gradient(90deg, #01ca01, blue);
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
   animation: rotateFrame 2s linear infinite;
 }
@@ -51,7 +51,7 @@
 }
 
 .hero h1 span {
-  background: linear-gradient(270deg, blue 10%, green 120%);
+  background: linear-gradient(270deg, blue 10%, #01ca01 120%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

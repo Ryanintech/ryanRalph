@@ -11,7 +11,7 @@
   position: relative;
   text-decoration-line: underline;
   text-decoration-thickness: 3px;
-  background: linear-gradient(90deg, green, blue);
+  background: linear-gradient(90deg, #01ca01, blue);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -41,7 +41,7 @@
 
 .project-image:hover {
   scale: calc(1.1);
-  background: linear-gradient(90deg, green, blue);
+  background: linear-gradient(90deg, #01ca01, #0000ff);
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
@@ -81,6 +81,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background: rgba(0, 0, 0, 0.671);
+  height: 100%;
+  width: 100%;
 }
 
 .focused-image {
