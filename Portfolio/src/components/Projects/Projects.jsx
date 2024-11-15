@@ -45,7 +45,7 @@ const Projects = () => {
   }, [focusedProject]);
 
   return (
-    <div className="projects">
+    <div id="projects" className="projects">
       <div className="project-title">
         <h1>My Projects</h1>
       </div>

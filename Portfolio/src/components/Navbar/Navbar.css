@@ -13,16 +13,34 @@
   justify-content: space-between;
 }
 
-a {
-  color: inherit; /* Inherits the color from its parent, or specify the color */
-  text-decoration: none; /* Removes any underlines */
+.nav-menu li {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
 }
 
-a:visited {
-  color: inherit; /* Keeps the same color after the link is visited */
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.navbar img {
+.nav-menu p {
+  color: green;
+  cursor: pointer;
+}
+
+.nav-menu p.active {
+  color: blue;
+}
+
+.active-image {
+  height: 30px;
+  display: block;
+}
+
+.logo {
   height: 80px;
   width: 10%;
 }
@@ -35,6 +53,16 @@ a:visited {
   cursor: pointer;
   transition: 0.5s;
 }
+
 .nav-connect:hover {
   transform: scale(0.75);
+}
+
+.nav-connect a {
+  color: white;
+}
+
+.anchor-link {
+  text-decoration: none;
+  color: white;
 }

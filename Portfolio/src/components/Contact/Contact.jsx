@@ -9,7 +9,7 @@ import email from "../../assets/email.png";
 
 const Contact = () => {
   return (
-    <div className="contact">
+    <div id="contact" className="contact">
       <div className="contact-title">
         <h1>Get in touch</h1>
       </div>
@@ -45,9 +45,16 @@ const Contact = () => {
         </div>
 
         {/* contact right side */}
-        <form className="contact-right">
-          <label htmlFor="">Your Name</label>
-          <input type="text" name="name" placeholder="Enter your name" />
+        <form action="" method="POST" className="contact-right">
+          <label htmlFor="" for>
+            Your Name
+          </label>
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter your name"
+            required
+          />
           <label htmlFor="">Your Email</label>
           <input
             type="email"
