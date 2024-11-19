@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Projects.css";
 import work_data from "../../assets/workdata";
-import search_icon from "../../assets/square-arrow.png";
+import next from "../../assets/next.png";
 
 const Projects = () => {
   const [focusedProject, setFocusedProject] = useState(null);
@@ -85,7 +85,7 @@ const Projects = () => {
 
       <div className="project-showmore">
         <p>Show More</p>
-        <img src={search_icon} alt="Show more" />
+        <img src={next} alt="Show more" />
       </div>
     </div>
   );

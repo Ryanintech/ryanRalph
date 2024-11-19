@@ -1,18 +1,36 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./Navbar.css";
-import arrow from "../../assets/arrow-up.png";
+import underline from "../../assets/underline.png";
 import AnchorLink from "react-anchor-link-smooth-scroll";
+import menuopen from "../../assets/menu-open.png";
+import menuclose from "../../assets/menu-close.png";
 
 const Navbar = () => {
   const [menu, setMenu] = useState("about");
+  const menuRef = useRef();
+
+  const openMenu = () => {
+    menuRef.current.style.right = "0";
+  };
+  const closeMenu = () => {
+    menuRef.current.style.right = "-350px";
+  };
 
   return (
-    <div id="navbar" className="navbar">
+    <div className="navbar">
       <img src="/src/assets/logo2.png" alt="Image of me" className="logo" />
-      <ul className="nav-menu">
+      <img className="menu-open" onClick={openMenu} src={menuopen} alt="" />
+
+      <ul ref={menuRef} className="nav-menu">
+        <img
+          className="menu-close"
+          onClick={closeMenu}
+          src={menuclose}
+          alt=""
+        />
         <li>
           <div className="nav-item">
-            <AnchorLink className="anchor-link" href="#home">
+            <AnchorLink className="anchor-link" href="#home" offset={100}>
               <p
                 onClick={() => setMenu("home")}
                 className={menu === "home" ? "active" : ""}>
@@ -20,7 +38,7 @@ const Navbar = () => {
               </p>
             </AnchorLink>
             {menu === "home" ? (
-              <img src={arrow} alt="" className="active-image" />
+              <img src={underline} alt="" className="active-image" />
             ) : (
               <></>
             )}
@@ -36,7 +54,7 @@ const Navbar = () => {
               </p>
             </AnchorLink>
             {menu === "about" ? (
-              <img src={arrow} alt="" className="active-image" />
+              <img src={underline} alt="" className="active-image" />
             ) : (
               <></>
             )}
@@ -52,7 +70,7 @@ const Navbar = () => {
               </p>
             </AnchorLink>
             {menu === "projects" ? (
-              <img src={arrow} alt="" className="active-image" />
+              <img src={underline} alt="" className="active-image" />
             ) : (
               <></>
             )}
@@ -68,7 +86,7 @@ const Navbar = () => {
               </p>
             </AnchorLink>
             {menu === "contact" ? (
-              <img src={arrow} alt="" className="active-image" />
+              <img src={underline} alt="" className="active-image" />
             ) : (
               <></>
             )}
