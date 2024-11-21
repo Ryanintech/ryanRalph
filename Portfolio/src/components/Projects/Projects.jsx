@@ -52,13 +52,28 @@ const Projects = () => {
 
       <div className="project-container">
         {work_data.map((work, index) => (
-          <img
-            key={index}
-            src={work.w_img[0]}
-            alt={`Project ${index}`}
-            className="project-image"
-            onClick={() => handleClick(index)}
-          />
+          <div key={index} className="project-item">
+            <img
+              src={work.w_img[0]}
+              alt={`Project ${index}`}
+              className="project-image"
+              onClick={() => handleClick(index)}
+            />
+            {work.w_link !== "Coming Soon" ? (
+              <p>
+                Visit project here:{" "}
+                <a
+                  href={work.w_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="project-link">
+                  {work.w_link}
+                </a>
+              </p>
+            ) : (
+              <p className="coming-soon">Coming Soon</p>
+            )}
+          </div>
         ))}
       </div>
 
@@ -83,7 +98,7 @@ const Projects = () => {
         </div>
       )}
 
-      <div className="project-showmore">
+      <div className="project-showMore">
         <p>Show More</p>
         <img src={next} alt="Show more" />
       </div>

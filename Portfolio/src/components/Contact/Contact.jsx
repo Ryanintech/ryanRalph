@@ -72,7 +72,6 @@ const Contact = () => {
       <div className="contact-section">
         <div className="contact-left">
           <h1>Let's talk</h1>
-          <p>Template</p>
           <div className="contact-details">
             <div className="contact-detail">
               <img src={location} alt="" />
@@ -154,9 +153,9 @@ const Contact = () => {
           />
           {errors.honeypot && <p className="error">{errors.honeypot}</p>}
 
-          <button type="submit" className="submit">
-            Submit
-          </button>
+          <div className="submit-container">
+            <button className="submit">Submit</button>
+          </div>
         </form>
         {success && <p className="success">Thank you for reaching out!</p>}
       </div>

@@ -3,8 +3,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 80px;
-  margin: 80px 170px;
+  gap: 60px;
+  margin: 20px 20px;
+  margin-top: 150px;
 }
 
 .contact-title {
@@ -23,6 +24,7 @@
 
 .contact-section {
   display: flex;
+  flex-wrap: wrap-reverse;
   gap: 150px;
 }
 
@@ -99,7 +101,7 @@
 }
 
 .contact-right textarea {
-  width: 100%;
+  width: 80%;
   height: 150px;
   border: none;
   padding: 25px;
@@ -110,23 +112,59 @@
   font-size: 20px;
 }
 
-.contact-right .submit {
+.submit-container .submit {
   border: none;
   color: white;
   border-radius: 50px;
   background: linear-gradient(90deg, #01ca01 20%, blue);
   font-size: 22px;
   padding: 20px 60px;
-  margin-bottom: 50px;
+  margin-bottom: 0; /* Remove bottom margin for exact centering */
   cursor: pointer;
 }
 
-.contact-right .submit:hover {
+.submit-container .submit:hover {
   transition: 0.3s;
   transform: scale(1.1);
   border: 2px solid;
 }
 
+.submit-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  width: 100%; /* Ensure it spans the full width */
+}
+
 .success {
   color: #01ca01;
+}
+
+@media (max-width: 1205px) {
+  .contact-section {
+    gap: 50px;
+    justify-content: center;
+  }
+  .contact-right .submit {
+    align-items: center;
+  }
+}
+@media (max-width: 800px) {
+  .contact-right input {
+    border: none;
+    width: 100%;
+  }
+
+  .contact-right textarea {
+    width: 80%;
+  }
+
+  .contact-right .submit {
+    align-items: center;
+  }
+  .contact-left {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+  }
 }
