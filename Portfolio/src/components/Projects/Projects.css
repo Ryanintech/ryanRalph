@@ -5,7 +5,6 @@
   justify-content: center;
   gap: 60px;
   margin: 20px 80px;
-  height: 100vh;
 }
 
 .project-title {
@@ -16,7 +15,6 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  margin-top: 150px;
 }
 
 .project-title h1 {
@@ -139,6 +137,9 @@
 }
 
 @media (max-width: 800px) {
+  .projects {
+    gap: 50px;
+  }
   .project-title h1 {
     padding: 0;
     font-size: 50px;

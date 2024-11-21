@@ -5,11 +5,6 @@
   justify-content: center;
   gap: 60px;
   margin: 20px 20px;
-  margin-top: 150px;
-}
-
-.contact-title {
-  position: relative;
 }
 
 .contact-title h1 {
@@ -25,7 +20,7 @@
 .contact-section {
   display: flex;
   flex-wrap: wrap-reverse;
-  gap: 150px;
+  gap: 100px;
 }
 
 .contact-left {

@@ -33,6 +33,11 @@ const Contact = () => {
     if (!formData.message.trim()) formErrors.message = "Message is required.";
 
     setErrors(formErrors);
+
+    Object.keys(formErrors).forEach((key) => {
+      document.getElementsByName(key)[0]?.classList.add("error");
+    });
+
     return Object.keys(formErrors).length === 0;
   };
 
@@ -57,21 +62,27 @@ const Contact = () => {
           honeypot: "",
         });
       } else {
-        throw new Error("Failed to submit the form.");
+        const errorData = await response.json();
+        setErrors({
+          submit: errorData.message || "Failed to submit the form.",
+        });
       }
     } catch (error) {
-      console.error(error.message);
+      setErrors({ submit: "Something went wrong. Please try again later." });
     }
   };
 
   return (
     <div id="contact" className="contact">
       <div className="contact-title">
-        <h1>Get in touch</h1>
+        <h1>Let's talk</h1>
       </div>
       <div className="contact-section">
         <div className="contact-left">
-          <h1>Let's talk</h1>
+          <div className="contact-me">
+            <h1>Get in touch</h1>
+            <p>jhfdskjdlfkbjd</p>
+          </div>
           <div className="contact-details">
             <div className="contact-detail">
               <img src={location} alt="" />
