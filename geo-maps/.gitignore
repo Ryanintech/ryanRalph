@@ -1,0 +1,8 @@
+# Ignore .env file
+.env
+
+# Ignore node_modules folder if you use Node.js
+node_modules/
+
+# Ignore vendor folder if you use Composer for PHP
+vendor/
