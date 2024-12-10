@@ -23,7 +23,7 @@
     <!-- Loader -->
     <div id="loader">
         <div class="spinner"></div>
-    </div>/
+    </div>
 
 
     <!-- Map container -->
@@ -36,17 +36,14 @@
         <div id="country-search-results" class="search-results"></div> <!-- Search results container -->
     </div>
 
-
-
-
-
-
     <!-- Modal -->
 
     <div id="country-modal-container">
         <button id="toggle-modal-btn" class="btn btn-dark">Show Details</button>
         <div id="country-modal">
-            <button class="modal-close-btn">X</button>
+            <div class="modal-header">
+                <button class="modal-close-btn">X</button>
+            </div>
             <h2><strong><span id="country-name"></span></strong></h2>
             <p><strong>Date + Time:</strong> <span id="current-time"></span></p>
             <p><strong>Marker Point:</strong> <span id="capital"></span></p>
@@ -59,31 +56,13 @@
         </div>
     </div>
 
-    <div id="oceanModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 id="ocean-name">Ocean Name</h2>
-            <p><strong>Type:</strong> <span id="ocean-type">Ocean Type</span></p>
-            <p><strong>Description:</strong> <span id="ocean-description">Ocean Description</span></p>
-        </div>
-    </div>
-
-
-
-
-
-
-
-    <!-- Link to custom JS -->
-
     <script type="module" src="js/utils.js"></script>
     <script type="module" src="js/getBorders.js"></script>
     <script type="module" src="js/getCountryData.js"></script>
     <script type="module" src="js/getWeather.js"></script>
     <script type="module" src="js/getPopulationData.js"></script>
+    <script type="module" src="js/getTime.js"></script>
     <script type="module" src="js/map.js"></script>
-
-    <!-- This should be the last script to ensure dependencies are loaded -->
     <script type="module" src="js/script.js"></script>
 
 </body>

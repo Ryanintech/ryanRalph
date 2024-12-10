@@ -1,8 +1,8 @@
-import { updateCountryModal, showLoader, hideLoader } from './utils.js'; // Import loader functions
+import { updateCountryModal, showLoader, hideLoader } from './utils.js';
 
 export function getCountryData(latitude, longitude) {
 
-    showLoader(); // Show loader when fetching starts
+    showLoader();
 
     return new Promise((resolve, reject) => {
         $.ajax({
@@ -18,10 +18,9 @@ export function getCountryData(latitude, longitude) {
                         reject(data.error);
                     } else if (data.countryName === 'N/A') {
                         alert("Country data is not available for the ocean.");
-                        // Fallback to ocean 
                     } else {
                         updateCountryModal(data);
-                        resolve(data); // Resolve with country data
+                        resolve(data);
                     }
 
                 } catch (error) {

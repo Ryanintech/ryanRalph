@@ -1,5 +1,3 @@
-import { getCountryData } from "./getCountryData.js";
-
 // Extract all coordinates from a given geometry
 export function extractCoordinates(geometry) {
     let coordinates = [];
@@ -69,17 +67,6 @@ export function updateCountryModal(countryData) {
 
     $('#country-modal').show();
 }
-
-
-
-// Function to update ocean modal
-export function updateOceanModal(oceanData) {
-    // Assuming oceanData contains relevant ocean information like ocean name
-    $('#ocean-name').text(oceanData.name || 'Unknown Ocean');
-    $('#ocean-info').text(oceanData.info || 'No additional info available.');
-    $('#ocean-modal').show();
-}
-
 
 
 export function showLoader() {

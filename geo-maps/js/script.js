@@ -1,24 +1,19 @@
 import { handleCountrySelection, initializeMapAndSetHandlers } from './map.js';
 import { showLoader, openModal } from './utils.js';
 
-let allCountries = []; // Cached country data
+let allCountries = [];
 
 $(document).ready(() => {
     showLoader();
     initializeMapWithUserLocation();
     fetchAndCacheCountryData();
 
-    // Attach search bar handlers
-    $('#country-search-bar').on('input', debounce(handleCountrySearch, 300)); // Add debounce for smoother experience
-    $('#country-search-bar').on('focus', displayInitialSearchResults); // Show initial results on focus
-
-    // Clear search results when clicking outside
+    $('#country-search-bar').on('input', debounce(handleCountrySearch, 300));
+    $('#country-search-bar').on('focus', displayInitialSearchResults);
     $(document).on('click', handleDocumentClick);
 
-    // Modal toggle
     $('#toggle-modal-btn').on('click', openModal);
 
-    // Modal close button
     $(document).on('click', '.modal-close-btn', () => {
         $('#country-modal').hide();
     });
@@ -49,7 +44,7 @@ function fetchAndCacheCountryData() {
         })
         .catch(error => {
             console.error('Error fetching country data:', error);
-            isCountryDataReady = true; // Avoid infinite loader
+            isCountryDataReady = true;
             checkLoaderStatus();
         });
 }
@@ -57,15 +52,29 @@ function fetchAndCacheCountryData() {
 // Handle country search input
 function handleCountrySearch() {
     const searchTerm = $('#country-search-bar').val().toLowerCase();
-    const results = allCountries.filter(country =>
-        country.name.toLowerCase().startsWith(searchTerm)
-    );
-    displaySearchResults(results);
+
+    const results = allCountries.filter(country => {
+        const countryName = country.name.toLowerCase();
+
+        if (countryName.startsWith(searchTerm)) {
+            return true;
+        }
+
+        return countryName.includes(searchTerm);
+    });
+
+    const exactMatches = results.filter(country => country.name.toLowerCase().startsWith(searchTerm));
+    const partialMatches = results.filter(country => !country.name.toLowerCase().startsWith(searchTerm));
+
+    const sortedResults = [...exactMatches, ...partialMatches];
+
+    displaySearchResults(sortedResults);
 }
+
 
 // Show initial results on search bar focus
 function displayInitialSearchResults() {
-    const initialResults = allCountries.slice(0, 3); // Show first 3 countries alphabetically
+    const initialResults = allCountries.slice(0, 3);
     displaySearchResults(initialResults);
 }
 
@@ -86,7 +95,6 @@ function displaySearchResults(results) {
     }
 }
 
-// Clear search results when clicking outside
 function handleDocumentClick(event) {
     const searchBar = $('#country-search-bar');
     const resultsContainer = $('#country-search-results');
@@ -103,7 +111,7 @@ function initializeMapWithUserLocation() {
                 const { latitude, longitude } = position.coords;
                 initializeMapAndSetHandlers(latitude, longitude);
             },
-            () => initializeMapAndSetHandlers(51.505, -0.09) // Default to London
+            () => initializeMapAndSetHandlers(51.505, -0.09)
         );
     } else {
         alert('Geolocation not supported.');

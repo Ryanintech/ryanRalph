@@ -11,7 +11,6 @@ if (!isset($_GET['lat']) || !isset($_GET['lon']) || !is_numeric($_GET['lat']) ||
 $lat = $_GET['lat'];
 $lon = $_GET['lon'];
 
-// OpenWeatherMap API details
 $weatherApiKey = $_ENV['WEATHER_API_KEY'];
 $weatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$weatherApiKey&units=metric";
 
@@ -19,7 +18,7 @@ $weatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $weatherUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);  // Optional, for self-signed certificates or testing
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 $response = curl_exec($ch);
 
 // Check if cURL request was successful

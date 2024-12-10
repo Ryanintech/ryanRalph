@@ -13,7 +13,7 @@ export async function getWeather(latitude, longitude) {
             throw new Error(response.error);
         }
 
-        return response; // Assuming `response` is properly structured.
+        return response;
     } catch (error) {
         throw new Error(`Error fetching weather data: ${error.message || error}`);
     }

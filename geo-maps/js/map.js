@@ -3,9 +3,9 @@ import { updateTime } from './getTime.js';
 import { fetchWeatherAndUpdateUI } from './getWeather.js';
 import { checkLoaderStatus } from './script.js';
 import { hideLoader, openModal, showLoader } from './utils.js';
-let map; // Global variable to store the map instance
-let marker; // Global variable to store the marker instance
-let isDragging = false; // Declare and initialize isDragging
+let map;
+let marker;
+let isDragging = false;
 
 
 export function initializeMap(latitude, longitude) {
@@ -17,10 +17,11 @@ export function initializeMap(latitude, longitude) {
     if (!map) {
         map = L.map('map', {
             worldCopyJump: true,
+            continuousWorld: true,
             center: [latitude, longitude],
             zoom: 13,
-            minZoom: 2, // Set the minimum zoom level (zoom out far enough)
-            maxZoom: 18, // Set the maximum zoom level (zoom in as needed)
+            minZoom: 2,
+            maxZoom: 18,
             preferCanvas: true,
         });
 
@@ -28,6 +29,13 @@ export function initializeMap(latitude, longitude) {
             attribution: '&copy; <a href="https://www.thunderforest.com/">Thunderforest</a>',
             maxZoom: 19,
         }).addTo(map);
+
+        // Set the maxBounds to limit the map's movement (avoid the grey area)
+        map.setMaxBounds([
+            [-90, -180],
+            [90, 180]
+        ]);
+
 
         // Create the draggable marker
         marker = L.marker([latitude, longitude], { draggable: true })
@@ -42,7 +50,7 @@ export function initializeMap(latitude, longitude) {
         marker.on('dragend', () => {
             const { lat, lng } = marker.getLatLng();
             showLoader();
-            handleLocationData(lat, lng);  // Handle location data based on new marker position
+            handleLocationData(lat, lng);
             updateTime(lat, lng);
             updateMapPosition(lat, lng);
 
@@ -55,23 +63,21 @@ export function initializeMap(latitude, longitude) {
         map.on('click', function (e) {
             const { lat, lng } = e.latlng;
 
-            handleLocationData(lat, lng)  // Use the new function to handle location data
+            handleLocationData(lat, lng)
                 .catch((error) => {
                     console.error("Error handling location data:", error);
                 });
 
             showLoader();
             updateTime(lat, lng);
-            updateMapPosition(lat, lng);  // Update map position with new click location
-            updateMarkerPosition(lat, lng); // Update marker position with new click location
+            updateMapPosition(lat, lng);
+            updateMarkerPosition(lat, lng);
 
-            // Zoom in the map when it's clicked
-            let newZoom = map.getZoom() + 1;  // Increase zoom level by 1
+            let newZoom = map.getZoom() + 1;
             if (newZoom > map.getMaxZoom()) {
-                newZoom = map.getMaxZoom();  // Limit the zoom to the maximum zoom level
+                newZoom = map.getMaxZoom();
             }
 
-            // Set the new zoom level and center the map at the clicked position
             map.setView([lat, lng], newZoom);
         });
 
@@ -90,19 +96,19 @@ export function handleCountrySelection(countryCode) {
         .then(data => {
             const { lat, lng } = data.capitalCoordinates;
             if (lat && lng) {
-                updateMarkerPosition(lat, lng); // Update the marker on the map
-                map.setView([lat, lng], 8); // Center the map on the capital
+                updateMarkerPosition(lat, lng);
+                map.setView([lat, lng], 8);
                 fetchWeatherAndUpdateUI(lat, lng, data);
-                updateTime(lat, lng); // Update the time based on the new location
+                updateTime(lat, lng);
             } else {
                 console.error('No coordinates available for capital.');
                 alert('Could not find coordinates for the selected country.');
-                hideLoader(); // Hide loader if no coordinates are found
+                hideLoader();
             }
         })
         .catch(err => {
             console.error('Error fetching country data:', err);
-            hideLoader(); // Hide loader if there was an error fetching country data
+            hideLoader();
         });
 }
 
@@ -111,14 +117,13 @@ export function initializeMapAndSetHandlers(lat, lng) {
     map = initializeMap(lat, lng);
     updateTime(lat, lng);
 
-    // Disable map dragging and zooming when interacting with other UI elements
     map.on('movestart', () => {
         if (isDragging) map.dragging.disable();
     });
 
     map.on('moveend', () => {
         const center = map.getCenter();
-        updateTime(center.lat, center.lng); // Update time dynamically on marker drag
+        updateTime(center.lat, center.lng);
     });
 
     map.on('load', () => {
@@ -145,13 +150,10 @@ function updateMapPosition(latitude, longitude) {
 }
 
 async function handleLocationData(lat, lon) {
-    // First, check if country data is available
     getCountryData(lat, lon)
         .then(countryData => {
             if (countryData) {
-                // Country data is available, so no need to show ocean modal
                 console.log('Country data found:', countryData);
-                // Handle country data (e.g., show country details in modal)
             } else {
             }
         })
