@@ -16,5 +16,4 @@ export function getPopulationData(countryCode) {
         .catch(error => {
             console.error("Fetch error:", error);
         });
-
 }

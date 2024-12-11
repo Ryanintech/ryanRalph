@@ -1,10 +1,9 @@
 import { hideLoader, updateCountryModal } from "./utils.js";
 
-
 export async function getWeather(latitude, longitude) {
     try {
         const response = await $.ajax({
-            url: 'php/getWeatherData.php',
+            url: 'php/getWeatherData.php',  // Proxy endpoint
             method: 'GET',
             data: { lat: latitude, lon: longitude },
         });
@@ -18,7 +17,6 @@ export async function getWeather(latitude, longitude) {
         throw new Error(`Error fetching weather data: ${error.message || error}`);
     }
 }
-
 
 export function fetchWeatherAndUpdateUI(lat, lng, countryData) {
     getWeather(lat, lng)

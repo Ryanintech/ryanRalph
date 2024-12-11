@@ -1,12 +1,11 @@
 import { updateCountryModal, showLoader, hideLoader } from './utils.js';
 
 export function getCountryData(latitude, longitude) {
-
     showLoader();
 
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: 'php/getCountryData.php',
+            url: 'php/getCountryData.php',  // Proxy endpoint
             method: 'GET',
             data: { lat: latitude, lon: longitude },
             success: async function (data) {

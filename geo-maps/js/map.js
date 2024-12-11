@@ -2,7 +2,7 @@ import { getCountryData } from './getCountryData.js';
 import { fetchTimeAndUpdateUI, updateTime } from './getTime.js';
 import { fetchWeatherAndUpdateUI } from './getWeather.js';
 import { checkLoaderStatus } from './script.js';
-import { hideLoader, openModal, showLoader } from './utils.js';
+import { hideLoader, openModal, showLoader, updateCountryModal } from './utils.js';
 let map;
 let marker;
 let isDragging = false;
@@ -153,18 +153,21 @@ function updateMapPosition(latitude, longitude) {
     }
 }
 
-async function handleLocationData(lat, lon) {
-    try {
-        const countryData = await getCountryData(lat, lon);
-        if (countryData) {
-            console.log('Country data found:', countryData);
-            // Optionally handle country data (e.g., update UI or fetch related data)
-        } else {
-            console.warn('No country data available for this location.');
-        }
-    } catch (error) {
-        console.error('Error fetching country data:', error);
-    }
+// Handle marker drag or map click
+function handleLocationData(lat, lon) {
+    getCountryData(lat, lon)
+        .then((countryData) => {
+            if (countryData) {
+                console.log('Country data found:', countryData);
+                updateCountryModal(countryData);
+            } else {
+                console.warn('No country data available for this location.');
+                alert('No country data available for this location.');
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching country data:', error);
+            alert('Error fetching country data.');
+        });
 }
-
 

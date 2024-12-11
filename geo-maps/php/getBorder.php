@@ -1,6 +1,7 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+header('Content-Type: application/json');
+echo json_encode(['message' => 'Hello World']);
+
 
 if (!isset($_GET['countryCode'])) {
     echo json_encode(["error" => "Country code is required"]);

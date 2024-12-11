@@ -1,12 +1,16 @@
 <?php
 header('Content-Type: application/json');
+echo json_encode(['message' => 'Hello World']);
+
+header('Access-Control-Allow-Origin: *');
+
 require_once('./handler.php');
 
 if (isset($_GET['country'])) {
     $countryCode = $_GET['country'];
     $username = $_ENV['GEONAMES_USERNAME'];
 
-    $url = "http://api.geonames.org/countryInfo?country=" . urlencode($countryCode) . "&username={$username}";
+    $url = "http://api.geonames.org/countryInfoJSON?country=" . urlencode($countryCode) . "&username={$username}";
     $response = @file_get_contents($url);
 
     if ($response === false) {
@@ -15,18 +19,12 @@ if (isset($_GET['country'])) {
         exit;
     }
 
-    // Load the XML response
-    $xml = @simplexml_load_string($response);
-    if (!$xml) {
-        http_response_code(502);
-        echo json_encode(['error' => 'Invalid XML response from GeoNames API']);
-        exit;
-    }
+    $data = json_decode($response, true);
 
-    $countryInfo = $xml->country;
-    if ($countryInfo) {
+    if (isset($data['geonames'][0])) {
+        $countryInfo = $data['geonames'][0];
         $formattedData = [
-            'population' => (string)$countryInfo->population ?? 'N/A',
+            'population' => $countryInfo['population'] ?? 'N/A',
         ];
         echo json_encode($formattedData);
     } else {

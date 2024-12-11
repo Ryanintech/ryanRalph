@@ -1,10 +1,10 @@
 <?php
 
-require_once('./handler.php');
+require_once('./apiFetcher.php');
 
 header('Content-Type: application/json');
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+header('Access-Control-Allow-Origin: *');
+
 
 // Check if a country code is provided
 if (isset($_GET['code'])) {
@@ -17,7 +17,7 @@ if (isset($_GET['code'])) {
 
     // Fetch data by country code
     $url = "https://restcountries.com/v3.1/alpha/$countryCode";
-    $response = @file_get_contents($url);
+    $response = fetchApiData($url); // Using the helper function
 
     if (!$response) {
         echo json_encode(["error" => "Failed to fetch data for the given country code"]);
@@ -58,10 +58,10 @@ if (!is_numeric($lat) || !is_numeric($lon)) {
     exit;
 }
 
-$openCageApiKey = $_ENV['OPENCAGE_API_KEY'];
+$openCageApiKey = 'b3d40e9524a94971a8421d04a455348d';
 $url = "https://api.opencagedata.com/geocode/v1/json?q=$lat+$lon&key=$openCageApiKey&language=en";
 
-$response = @file_get_contents($url);
+$response = fetchApiData($url); // Using the helper function
 if (!$response) {
     echo json_encode(["error" => "Failed to fetch data from OpenCage API"]);
     exit;
@@ -106,12 +106,14 @@ echo json_encode([
     'capitalCoordinates' => $capitalCoordinates
 ]);
 
+// Updated weather, population, and capital functions to use fetchApiData
+
 function getWeatherData($lat, $lon)
 {
-    $weatherApiKey = $_ENV['WEATHER_API_KEY'];
+    $weatherApiKey = 'e48daa58bb09ec71e3a60d802858f28e';
     $weatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$weatherApiKey&units=metric";
 
-    $weatherResponse = @file_get_contents($weatherUrl);
+    $weatherResponse = fetchApiData($weatherUrl); // Using the helper function
     if (!$weatherResponse) {
         return 'No weather data available';
     }
@@ -126,9 +128,9 @@ function getWeatherData($lat, $lon)
 
 function getPopulationData($countryCode)
 {
-    $username = $_ENV['GEONAMES_USERNAME'];
+    $username = 'ryanintech';
     $url = "http://api.geonames.org/countryInfoJSON?formatted=true&country=" . urlencode($countryCode) . "&username={$username}&style=full";
-    $response = @file_get_contents($url);
+    $response = fetchApiData($url); // Using the helper function
 
     if ($response === false) {
         return 'N/A';
@@ -139,15 +141,13 @@ function getPopulationData($countryCode)
         return 'N/A';
     }
 
-    // Return the raw population number, without commas
     return $data['geonames'][0]['population'];
 }
-
 
 function getCapitalCoordinates($countryCode)
 {
     $url = "https://restcountries.com/v3.1/alpha/$countryCode";
-    $response = @file_get_contents($url);
+    $response = fetchApiData($url); // Using the helper function
 
     if ($response === false) {
         return ['error' => 'Failed to fetch capital coordinates'];

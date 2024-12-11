@@ -1,20 +1,38 @@
 <?php
 header('Content-Type: application/json');
-require_once('./handler.php');
-// Set the coordinates and GeoNames username
-$latitude = $_GET['lat'];
-$longitude = $_GET['lng'];
-$username = $_ENV['GEONAMES_USERNAME'];
-// Build the API URL using HTTP
-$geoNamesUrl = "http://api.geonames.org/timezoneJSON?lat=$latitude&lng=$longitude&username=$username";
+header('Access-Control-Allow-Origin: *'); // Allow all origins
 
-// Make the request to GeoNames API
-$response = file_get_contents($geoNamesUrl);
+// Check if lat and lng are provided
+$latitude = isset($_GET['lat']) ? $_GET['lat'] : null;
+$longitude = isset($_GET['lng']) ? $_GET['lng'] : null;
 
-if ($response === FALSE) {
-    // Handle error if request fails
-    echo json_encode(['error' => 'Failed to fetch current time']);
-} else {
-    // Return the response back to the frontend
-    echo $response;
+if (!$latitude || !$longitude) {
+    echo json_encode(['error' => 'Latitude and Longitude are required']);
+    exit;
 }
+
+$geoNamesUsername = 'ryanintech';
+$geoNamesUrl = "http://api.geonames.org/timezoneJSON?lat=" . urlencode($latitude) . "&lng=" . urlencode($longitude) . "&username=" . urlencode($geoNamesUsername);
+
+// Log the URL for debugging
+error_log('GeoNames API URL: ' . $geoNamesUrl);
+
+$ch = curl_init($geoNamesUrl);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($ch);
+
+// Check for errors
+if ($response === false) {
+    echo json_encode(['error' => 'Error fetching data from GeoNames: ' . curl_error($ch)]);
+    exit;
+}
+
+$responseData = json_decode($response, true);
+
+// Check if GeoNames API returned an error in the response
+if (isset($responseData['status']) && $responseData['status']['message'] != 'ok') {
+    echo json_encode(['error' => 'GeoNames API error: ' . $responseData['status']['message']]);
+    exit;
+}
+
+echo $response;
