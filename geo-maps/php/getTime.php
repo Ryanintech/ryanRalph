@@ -1,6 +1,8 @@
 <?php
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *'); // Allow all origins
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
 
 // Check if lat and lng are provided
 $latitude = isset($_GET['lat']) ? $_GET['lat'] : null;

@@ -29,7 +29,7 @@ $(document).ready(() => {
 
 // Fetch country data and cache it
 function fetchAndCacheCountryData() {
-    fetch('/countryBorders.geo.json')
+    fetch('countryBorders.geo.json')
         .then(response => response.json())
         .then(data => {
             allCountries = data.features.map(feature => ({
