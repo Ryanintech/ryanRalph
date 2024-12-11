@@ -1,32 +1,22 @@
-import { showLoader, hideLoader, updateCountryModal } from "./utils.js";
+export async function fetchTimeAndUpdateUI(lat, lng) {
+    const url = `php/getTime.php?lat=${lat}&lng=${lng}`;
 
-export function fetchTimeAndUpdateUI(lat, lng, countryData) {
-    // Show the loader at the start
-    showLoader();
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
 
-    updateTime(lat, lng)
-        .then((timeData) => {
-            console.log("Fetched time data:", timeData);
-
-            if (!countryData) {
-                throw new Error("countryData is undefined"); // Prevent further execution
-            }
-
-            // Add time data to countryData and update UI
-            countryData.time = timeData.time || "Time data unavailable";
-            updateCountryModal(countryData);
-        })
-        .catch((err) => {
-            console.error("Error fetching time data:", err);
-            if (countryData) {
-                countryData.time = "Time data unavailable";
-                updateCountryModal(countryData);
-            }
-        })
-        .finally(() => {
-            hideLoader(); // Always hide the loader when done
-        });
+        if (data.error) {
+            console.error('Error fetching time:', data.error);
+            throw new Error(data.error);
+        } else {
+            // Process the time data
+            updateTime(data.time);
+        }
+    } catch (error) {
+        console.error('Error fetching time data:', error);
+    }
 }
+
 
 
 export async function updateTime(latitude, longitude) {

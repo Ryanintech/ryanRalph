@@ -1,24 +1,20 @@
 <?php
-if (isset($_GET['lat']) && isset($_GET['lng'])) {
-    $lat = $_GET['lat'];
-    $lng = $_GET['lng'];
-    $username = 'ryanintech';
+header('Content-Type: application/json');
+require_once('./handler.php');
+// Set the coordinates and GeoNames username
+$latitude = $_GET['lat'];
+$longitude = $_GET['lng'];
+$username = $_ENV['GEONAMES_USERNAME'];
+// Build the API URL using HTTP
+$geoNamesUrl = "http://api.geonames.org/timezoneJSON?lat=$latitude&lng=$longitude&username=$username";
 
-    $url = "http://api.geonames.org/timezoneJSON?lat=$lat&lng=$lng&username=$username";
+// Make the request to GeoNames API
+$response = file_get_contents($geoNamesUrl);
 
-    // Ensure to handle possible failure in the file_get_contents call
-    $response = @file_get_contents($url);
-
-    if ($response === FALSE) {
-        echo json_encode(["error" => "Failed to fetch current time"]);
-    } else {
-        $response_data = json_decode($response, true);
-        if (isset($response_data['time'])) {
-            echo json_encode(["time" => $response_data['time']]);
-        } else {
-            echo json_encode(["error" => "Time data not available"]);
-        }
-    }
+if ($response === FALSE) {
+    // Handle error if request fails
+    echo json_encode(['error' => 'Failed to fetch current time']);
 } else {
-    echo json_encode(["error" => "Missing lat/lng parameters"]);
+    // Return the response back to the frontend
+    echo $response;
 }
