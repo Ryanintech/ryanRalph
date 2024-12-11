@@ -4,7 +4,7 @@ import { hideLoader, updateCountryModal } from "./utils.js";
 export async function getWeather(latitude, longitude) {
     try {
         const response = await $.ajax({
-            url: 'php/getWeatherData.php',
+            url: 'https://ryansmaps.netlify.app/php/getWeatherData.php',
             method: 'GET',
             data: { lat: latitude, lon: longitude },
         });

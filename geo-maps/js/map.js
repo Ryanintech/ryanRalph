@@ -91,7 +91,7 @@ export function initializeMap(latitude, longitude) {
 // Handle country selection from the search results
 export function handleCountrySelection(countryCode) {
     showLoader();
-    fetch(`php/getCountryData.php?code=${countryCode}`)
+    fetch(`https://ryansmaps.netlify.app/php/getCountryData.php?code=${countryCode}`)
         .then(response => response.json())
         .then(data => {
             hideLoader(); // Add here to ensure loader is hidden on successful response
@@ -99,7 +99,7 @@ export function handleCountrySelection(countryCode) {
             if (lat && lng) {
                 updateMarkerPosition(lat, lng);
                 map.setView([lat, lng], 8);
-                fetchWeatherAndUpdateUI(lat, lng, data);
+                (lat, lng, data);
                 fetchTimeAndUpdateUI(lat, lng); // Ensure time is updated
             } else {
                 console.error('No coordinates available for capital.');
