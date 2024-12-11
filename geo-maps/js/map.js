@@ -1,5 +1,5 @@
 import { getCountryData } from './getCountryData.js';
-import { updateTime } from './getTime.js';
+import { fetchTimeAndUpdateUI, updateTime } from './getTime.js';
 import { fetchWeatherAndUpdateUI } from './getWeather.js';
 import { checkLoaderStatus } from './script.js';
 import { hideLoader, openModal, showLoader } from './utils.js';
@@ -63,15 +63,17 @@ export function initializeMap(latitude, longitude) {
         map.on('click', function (e) {
             const { lat, lng } = e.latlng;
 
+            showLoader();
+            updateMarkerPosition(lat, lng);
+            updateMapPosition(lat, lng);
+
             handleLocationData(lat, lng)
                 .catch((error) => {
                     console.error("Error handling location data:", error);
                 });
 
-            showLoader();
-            updateTime(lat, lng);
-            updateMapPosition(lat, lng);
-            updateMarkerPosition(lat, lng);
+            // Fetch time data (avoid redundant calls)
+            fetchTimeAndUpdateUI(lat, lng);
 
             let newZoom = map.getZoom() + 1;
             if (newZoom > map.getMaxZoom()) {
@@ -80,6 +82,7 @@ export function initializeMap(latitude, longitude) {
 
             map.setView([lat, lng], newZoom);
         });
+
 
 
 
@@ -94,22 +97,23 @@ export function handleCountrySelection(countryCode) {
     fetch(`php/getCountryData.php?code=${countryCode}`)
         .then(response => response.json())
         .then(data => {
+            hideLoader(); // Add here to ensure loader is hidden on successful response
             const { lat, lng } = data.capitalCoordinates;
             if (lat && lng) {
                 updateMarkerPosition(lat, lng);
                 map.setView([lat, lng], 8);
                 fetchWeatherAndUpdateUI(lat, lng, data);
-                updateTime(lat, lng);
+                fetchTimeAndUpdateUI(lat, lng); // Ensure time is updated
             } else {
                 console.error('No coordinates available for capital.');
                 alert('Could not find coordinates for the selected country.');
-                hideLoader();
             }
         })
         .catch(err => {
             console.error('Error fetching country data:', err);
-            hideLoader();
+            hideLoader(); // Ensure loader is hidden even on error
         });
+
 }
 
 
@@ -150,15 +154,17 @@ function updateMapPosition(latitude, longitude) {
 }
 
 async function handleLocationData(lat, lon) {
-    getCountryData(lat, lon)
-        .then(countryData => {
-            if (countryData) {
-                console.log('Country data found:', countryData);
-            } else {
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching country data:', error);
-        });
+    try {
+        const countryData = await getCountryData(lat, lon);
+        if (countryData) {
+            console.log('Country data found:', countryData);
+            // Optionally handle country data (e.g., update UI or fetch related data)
+        } else {
+            console.warn('No country data available for this location.');
+        }
+    } catch (error) {
+        console.error('Error fetching country data:', error);
+    }
 }
+
 
