@@ -1,9 +1,8 @@
 <?php
-ini_set('display_errors', 'On');
-error_reporting(E_ALL);
-
 header('Content-Type: application/json');
+require_once('./handler.php');
 
+// Validate the latitude and longitude to ensure they are numbers
 if (!isset($_GET['lat']) || !isset($_GET['lon']) || !is_numeric($_GET['lat']) || !is_numeric($_GET['lon'])) {
     echo json_encode(["error" => "Invalid latitude or longitude provided"]);
     exit;
@@ -12,17 +11,18 @@ if (!isset($_GET['lat']) || !isset($_GET['lon']) || !is_numeric($_GET['lat']) ||
 $lat = $_GET['lat'];
 $lon = $_GET['lon'];
 
+// OpenWeatherMap API details
 $weatherApiKey = $_ENV['WEATHER_API_KEY'];
-
 $weatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$weatherApiKey&units=metric";
 
+// Initialize cURL to fetch weather data
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $weatherUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);  // Optional, for self-signed certificates or testing
 $response = curl_exec($ch);
 
-// Check if cURL request was successful and actually implement it
+// Check if cURL request was successful
 if ($response === false) {
     echo json_encode(["error" => "Failed to fetch weather data"]);
     exit;

@@ -68,9 +68,6 @@ export function initializeMap(latitude, longitude) {
             updateMapPosition(lat, lng);
 
             handleLocationData(lat, lng)
-                .catch((error) => {
-                    console.error("Error handling location data:", error);
-                });
 
             // Fetch time data (avoid redundant calls)
             fetchTimeAndUpdateUI(lat, lng);
