@@ -30,14 +30,12 @@ export function initializeMap(latitude, longitude) {
             maxZoom: 19,
         }).addTo(map);
 
-        // Set the maxBounds to limit the map's movement (avoid the grey area)
         map.setMaxBounds([
             [-90, -180],
             [90, 180]
         ]);
 
 
-        // Create the draggable marker
         marker = L.marker([latitude, longitude], { draggable: true })
             .addTo(map)
             .bindPopup("Drag me or click a country to get info!")
@@ -80,9 +78,6 @@ export function initializeMap(latitude, longitude) {
             map.setView([lat, lng], newZoom);
         });
 
-
-
-
     }
 
     return map;
@@ -91,16 +86,17 @@ export function initializeMap(latitude, longitude) {
 // Handle country selection from the search results
 export function handleCountrySelection(countryCode) {
     showLoader();
-    fetch(`https://ryansmaps.netlify.app/php/getCountryData.php?code=${countryCode}`)
+    fetch(`php/getCountryData.php?code=${countryCode}`)
         .then(response => response.json())
         .then(data => {
-            hideLoader(); // Add here to ensure loader is hidden on successful response
+            hideLoader();
             const { lat, lng } = data.capitalCoordinates;
             if (lat && lng) {
                 updateMarkerPosition(lat, lng);
                 map.setView([lat, lng], 8);
-                (lat, lng, data);
-                fetchTimeAndUpdateUI(lat, lng); // Ensure time is updated
+                updateCountryModal(data);
+                openModal();
+                fetchTimeAndUpdateUI(lat, lng);
             } else {
                 console.error('No coordinates available for capital.');
                 alert('Could not find coordinates for the selected country.');
@@ -108,8 +104,9 @@ export function handleCountrySelection(countryCode) {
         })
         .catch(err => {
             console.error('Error fetching country data:', err);
-            hideLoader(); // Ensure loader is hidden even on error
+            hideLoader();
         });
+
 
 }
 
@@ -151,20 +148,17 @@ function updateMapPosition(latitude, longitude) {
 }
 
 // Handle marker drag or map click
-function handleLocationData(lat, lon) {
+async function handleLocationData(lat, lon) {
     getCountryData(lat, lon)
-        .then((countryData) => {
+        .then(countryData => {
             if (countryData) {
-                console.log('Country data found:', countryData);
                 updateCountryModal(countryData);
+                openModal();
             } else {
-                console.warn('No country data available for this location.');
-                alert('No country data available for this location.');
+                console.log('No country data found, possibly ocean.');
             }
         })
-        .catch((error) => {
+        .catch(error => {
             console.error('Error fetching country data:', error);
-            alert('Error fetching country data.');
         });
 }
-

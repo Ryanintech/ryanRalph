@@ -1,6 +1,5 @@
 export async function fetchTimeAndUpdateUI(lat, lng) {
-    const url = `https://ryansmaps.netlify.app/php/getTime.php?lat=${lat}&lng=${lng}`;
-    console.log('Request URL:', url);  // Logging the URL to verify it's correct
+    const url = `php/getTime.php?lat=${lat}&lng=${lng}`;
 
     try {
         const response = await fetch(url);
@@ -11,7 +10,6 @@ export async function fetchTimeAndUpdateUI(lat, lng) {
 
         const data = await response.json();
 
-        console.log('API Response:', data);  // Logging the response data for debugging
 
         if (data.error) {
             console.error('Error fetching time:', data.error);
@@ -27,7 +25,7 @@ export async function fetchTimeAndUpdateUI(lat, lng) {
 
 
 export function updateTime(lat, lng) {
-    const url = `https://ryansmaps.netlify.app/php/getTime.php?lat=${lat}&lng=${lng}`;
+    const url = `php/getTime.php?lat=${lat}&lng=${lng}`;
 
     $.ajax({
         url: url,

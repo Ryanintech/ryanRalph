@@ -1,10 +1,8 @@
 <?php
-
 require_once('./apiFetcher.php');
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
-
 
 // Check if a country code is provided
 if (isset($_GET['code'])) {
@@ -17,9 +15,10 @@ if (isset($_GET['code'])) {
 
     // Fetch data by country code
     $url = "https://restcountries.com/v3.1/alpha/$countryCode";
-    $response = fetchApiData($url); // Using the helper function
+    $response = fetchApiData($url);
 
     if (!$response) {
+        error_log("Error: Failed to fetch data for country code $countryCode.");
         echo json_encode(["error" => "Failed to fetch data for the given country code"]);
         exit;
     }
@@ -41,10 +40,14 @@ if (isset($_GET['code'])) {
         ];
         echo json_encode($result);
         exit;
+    } else {
+        error_log("Error: Unexpected response format for country code $countryCode.");
+        echo json_encode(["error" => "Invalid response from API"]);
+        exit;
     }
 }
 
-// Original latitude and longitude handling
+// Handle latitude and longitude
 if (!isset($_GET['lat']) || !isset($_GET['lon'])) {
     echo json_encode(["error" => "Latitude and longitude are required"]);
     exit;
@@ -58,20 +61,25 @@ if (!is_numeric($lat) || !is_numeric($lon)) {
     exit;
 }
 
+// Fetch location data
 $openCageApiKey = 'b3d40e9524a94971a8421d04a455348d';
 $url = "https://api.opencagedata.com/geocode/v1/json?q=$lat+$lon&key=$openCageApiKey&language=en";
+$response = fetchApiData($url);
 
-$response = fetchApiData($url); // Using the helper function
 if (!$response) {
+    error_log("Error: Failed to fetch data from OpenCage for lat: $lat, lon: $lon.");
     echo json_encode(["error" => "Failed to fetch data from OpenCage API"]);
     exit;
 }
 
 $data = json_decode($response, true);
+
 if (!isset($data['results'][0]['components'])) {
+    error_log("Error: No components found in OpenCage response for lat: $lat, lon: $lon.");
     echo json_encode(["error" => "No data found for the given location"]);
     exit;
 }
+
 
 $countryData = $data['results'][0]['components'];
 $currencyData = $data['results'][0]['annotations']['currency'] ?? null;
@@ -130,7 +138,7 @@ function getPopulationData($countryCode)
 {
     $username = 'ryanintech';
     $url = "http://api.geonames.org/countryInfoJSON?formatted=true&country=" . urlencode($countryCode) . "&username={$username}&style=full";
-    $response = fetchApiData($url); // Using the helper function
+    $response = fetchApiData($url);
 
     if ($response === false) {
         return 'N/A';
@@ -147,7 +155,7 @@ function getPopulationData($countryCode)
 function getCapitalCoordinates($countryCode)
 {
     $url = "https://restcountries.com/v3.1/alpha/$countryCode";
-    $response = fetchApiData($url); // Using the helper function
+    $response = fetchApiData($url);
 
     if ($response === false) {
         return ['error' => 'Failed to fetch capital coordinates'];

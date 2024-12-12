@@ -10,7 +10,6 @@ export function getCountryData(latitude, longitude) {
             data: { lat: latitude, lon: longitude },
             success: async function (data) {
                 try {
-                    console.log("Response Data:", data);
 
                     if (data.error) {
                         alert(data.error);

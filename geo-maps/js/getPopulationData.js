@@ -10,7 +10,6 @@ export function getPopulationData(countryCode) {
             if (data.error) {
                 console.warn(`Error in data: ${data.error}`);
             } else {
-                console.log("Population data received:", data);
             }
         })
         .catch(error => {
